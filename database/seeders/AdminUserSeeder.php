@@ -23,8 +23,9 @@ class AdminUserSeeder extends Seeder
             User::create([
                 'name' => 'Admin',
                 'email' => $adminEmail,
-                'password' => Hash::make('password123'), // Ganti sesuai kebutuhan
+                'password' => Hash::make('123'), // Ganti sesuai kebutuhan
                 'role' => 'admin',
+                'is_approved' => true,
             ]);
             $this->command->info('Admin user berhasil dibuat.');
         } else {

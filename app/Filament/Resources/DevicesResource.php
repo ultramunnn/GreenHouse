@@ -29,8 +29,8 @@ class DevicesResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('nama_device')->label('Nama Device')->sortable()->searchable(),
-                TextColumn::make('jenis_device')->label('Jenis Device')->sortable(),
                 TextColumn::make('kategori.nama_kategori')->label('Kategori Device'),
                 TextColumn::make('keterangan')->label('Keterangan')->limit(50),
             ])
@@ -58,10 +58,6 @@ class DevicesResource extends Resource
                     ->required()
                     ->maxLength(255),
 
-                TextInput::make('jenis_device')
-                    ->label('Jenis Device')
-                    ->required()
-                    ->maxLength(255),
 
                 Select::make('masterkategori_device_id')
                     ->label('Kategori Device')

@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Laravel\Sanctum\HasApiTokens;
+use Filament\Panel;
 
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,19 +25,13 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'role',
-
+        'is_approved',
     ];
 
-    public function canAccessPanel(\Filament\Panel $panel): bool
-    {
-        // Jika kamu hanya punya 1 panel admin dan ingin batasi role admin saja:
-        if ($panel->getId() === 'admin') {
-            return $this->role === 'admin';
-        }
-
-        // Jika ada panel lain, sesuaikan logika di sini
-        return false;
-    }
+    protected $attributes = [
+        'role' => 'user',
+        'is_approved' => false,
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -52,16 +48,63 @@ class User extends Authenticatable implements FilamentUser
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_approved' => 'boolean',
+    ];
+
+    public function canAccessPanel(Panel $panel): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        // Allow access to registration and login pages for both panels
+        if (request()->is('admin/login', 'admin/register')) {
+            return true;
+        }
+
+        // Only approved users can access the panel
+        if (!$this->is_approved) {
+            return false;
+        }
+
+        // Admin can access everything
+        if ($this->role === 'admin') {
+            return true;
+        }
+
+        // Regular users can only access user pages
+        return true;
     }
 
-    public function canAccessFilament(): bool
+    public function isAdmin(): bool
     {
-        return $this->role === 'admin'; // hanya user dengan role 'admin' yang boleh akses
+        return $this->role === 'admin';
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    /**
+     * Check if the user is approved.
+     */
+    public function isApproved(): bool
+    {
+        return $this->is_approved;
+    }
+
+    public function isPending(): bool
+    {
+        return !$this->is_approved;
+    }
+
+    public function approve(): void
+    {
+        $this->update(['is_approved' => true]);
+    }
+
+    public function reject(): void
+    {
+        $this->update(['is_approved' => false]);
     }
 }

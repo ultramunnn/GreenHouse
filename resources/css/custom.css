@@ -1,0 +1,7 @@
+[data-brand-color],
+.fi-logo,
+.fi-sidebar-header,
+.fi-sidebar-header span {
+    color: #2F855A !important;
+    font-weight: bold;
+} 

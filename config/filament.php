@@ -100,4 +100,10 @@ return [
 
     'system_route_prefix' => 'filament',
 
+    'layout' => [
+        'welcome_banner' => [
+            'enabled' => false,
+        ],
+    ],
+
 ];

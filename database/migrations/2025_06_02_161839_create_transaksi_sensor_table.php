@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('masterdevice_id')->constrained('masterdevice')->onDelete('cascade');
             $table->double('nilai', 15, 4); // contoh tipe float/double untuk sensor value
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
+            $table->timestamp('waktu_pencatatan')->useCurrent();
         });
     }
 

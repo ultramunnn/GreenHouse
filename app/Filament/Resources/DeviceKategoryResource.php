@@ -25,7 +25,7 @@ class DeviceKategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            TextColumn::make('id')->sortable(),
+            TextColumn::make('id')->label('ID')->sortable(),
             TextColumn::make('nama_kategori')->label('Nama Kategori')->sortable()->searchable(),
             TextColumn::make('keterangan')->limit(50)->label('Keterangan'),
             TextColumn::make('created_at')->dateTime()->label('Dibuat Pada')->sortable(),
