@@ -17,30 +17,30 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\User\Pages\Dashboard;
+use Illuminate\Session\Middleware\AuthenticateSession;
 
 class UserPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('user')
             ->path('user')
+            ->login()
+            ->registration()
             ->colors([
                 'primary' => Color::Green,
             ])
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
-            ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
             ->pages([
-                Pages\Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/User/Widgets'), for: 'App\\Filament\\User\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
+                Dashboard::class,
             ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
+                AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
@@ -50,31 +50,8 @@ class UserPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->login()
-            ->registration()
-            ->profile()
-            ->spa()
-            ->default()
+            ->authGuard('web')
             ->brandName('GreenHouse')
-            ->renderHook(
-                'panels::head.start',
-                fn (): string => '
-                    <style>
-                        [data-brand-color] {
-                            color: #2F855A !important;
-                        }
-                        .fi-logo {
-                            color: #2F855A !important;
-                        }
-                        .fi-sidebar-header {
-                            color: #2F855A !important;
-                        }
-                        .fi-sidebar-header span {
-                            color: #2F855A !important;
-                            font-weight: bold;
-                        }
-                    </style>
-                '
-            );
+            ->viteTheme('resources/css/app.css');
     }
 } 

@@ -28,7 +28,7 @@ class DeviceKategoryResource extends Resource
             TextColumn::make('id')->label('ID')->sortable(),
             TextColumn::make('nama_kategori')->label('Nama Kategori')->sortable()->searchable(),
             TextColumn::make('keterangan')->limit(50)->label('Keterangan'),
-            TextColumn::make('created_at')->dateTime()->label('Dibuat Pada')->sortable(),
+            TextColumn::make('created_at')->label('Waktu')->dateTime()->sortable(),
         ])
             ->filters([
                 //

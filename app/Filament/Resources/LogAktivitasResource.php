@@ -20,14 +20,7 @@ class LogAktivitasResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
-    {
-         return $form
-        ->schema([
-            TextInput::make('nama_aktivitas')->required(),
-            TextInput::make('ip_address')->required(),
-        ]);
-    }
+   
 
     public static function table(Table $table): Table
     {
@@ -42,14 +35,14 @@ class LogAktivitasResource extends Resource
                 ->sortable(false),
             TextColumn::make('nama_aktivitas')->searchable()->sortable(),
             TextColumn::make('ip_address')->sortable(),
-            TextColumn::make('created_at')->dateTime()->sortable(),
+            TextColumn::make('created_at')
+            ->label('Waktu')
+            ->dateTime()->sortable(),
             ])
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+          
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

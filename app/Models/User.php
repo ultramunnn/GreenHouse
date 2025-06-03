@@ -56,23 +56,15 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // Allow access to registration and login pages for both panels
-        if (request()->is('admin/login', 'admin/register')) {
-            return true;
+        if ($panel->getId() === 'admin') {
+            return $this->role === 'admin';
         }
 
-        // Only approved users can access the panel
-        if (!$this->is_approved) {
-            return false;
+        if ($panel->getId() === 'user') {
+            return $this->role === 'user';
         }
 
-        // Admin can access everything
-        if ($this->role === 'admin') {
-            return true;
-        }
-
-        // Regular users can only access user pages
-        return true;
+        return false;
     }
 
     public function isAdmin(): bool

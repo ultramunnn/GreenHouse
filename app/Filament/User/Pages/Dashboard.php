@@ -2,37 +2,60 @@
 
 namespace App\Filament\User\Pages;
 
-use Filament\Pages\Page;
+use Filament\Pages\Dashboard as BasePage;
+use Filament\Notifications\Notification;
 
-class Dashboard extends Page
+class Dashboard extends BasePage
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
-    
     protected static string $view = 'filament.user.pages.dashboard';
     
-    protected static ?string $title = 'Dashboard';
-    
-    protected static ?string $slug = 'dashboard';
-    
-    public static function getNavigationLabel(): string
+    public function getTitle(): string 
     {
-        return 'Beranda';
+        return 'Dashboard';
     }
-    
-    public static function getNavigationGroup(): ?string
-    {
-        return null;
-    }
-    
+
     protected function getHeaderWidgets(): array
     {
-        return [
-            // Add your widgets here
-        ];
-    }
-    
-    protected function getFooterWidgets(): array
-    {
         return [];
+    }
+
+    public function mount(): void
+    {
+        if (auth()->user()->role === 'admin') {
+            redirect()->to('/admin')->send();
+        }
+    }
+
+    public function redirectToGreenhouse()
+    {
+        Notification::make()
+            ->title('Fitur dalam pengembangan')
+            ->warning()
+            ->send();
+    }
+
+    public function redirectToMonitoring()
+    {
+        Notification::make()
+            ->title('Fitur dalam pengembangan')
+            ->warning()
+            ->send();
+    }
+
+    public function redirectToSettings()
+    {
+        Notification::make()
+            ->title('Fitur dalam pengembangan')
+            ->warning()
+            ->send();
+    }
+
+    public function redirectToHelp()
+    {
+        Notification::make()
+            ->title('Fitur dalam pengembangan')
+            ->warning()
+            ->send();
     }
 } 

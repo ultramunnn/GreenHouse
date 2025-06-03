@@ -6,30 +6,35 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
 */
 
-// Landing page
-Route::view('/', 'welcome')->name('welcome');
+// Landing page untuk semua pengunjung
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Guest Routes (Unauthenticated Users)
 Route::middleware('guest')->group(function () {
     Route::get('/login', function () {
-        return redirect('/admin/login');
+        return redirect()->route('filament.user.auth.login');
     })->name('login');
     
     Route::get('/register', function () {
-        return redirect('/admin/register');
+        return redirect()->route('filament.user.auth.register');
     })->name('register');
 });
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
-    // Redirect to appropriate dashboard based on role
     Route::get('/dashboard', function() {
-        return redirect('/admin/dashboard');
+        if (auth()->user()->role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+        return redirect('/user/dashboard');
     })->name('dashboard');
-
-    Route::get('/home', function() {
-        return redirect()->route('dashboard');
-    });
 });

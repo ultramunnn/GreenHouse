@@ -1,72 +1,60 @@
 <x-filament-panels::page>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Sensor Data Card -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-900">Data Sensor</h3>
-                <i class="fi fi-rr-temperature-high text-primary-600 text-2xl"></i>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Suhu</span>
-                    <span class="font-semibold">28°C</span>
+    <x-filament::grid>
+        {{-- Summary Cards --}}
+        <x-filament::grid.column span="4">
+            <x-filament::card>
+                <div class="flex items-center gap-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Total Greenhouse</h3>
+                        <p class="mt-2 text-3xl font-semibold text-gray-900">0</p>
+                    </div>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Kelembaban</span>
-                    <span class="font-semibold">65%</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">pH Tanah</span>
-                    <span class="font-semibold">6.5</span>
-                </div>
-            </div>
-        </div>
+            </x-filament::card>
+        </x-filament::grid.column>
 
-        <!-- Device Status Card -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-900">Status Perangkat</h3>
-                <i class="fi fi-rr-computer text-primary-600 text-2xl"></i>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Pompa Air</span>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Aktif
-                    </span>
+        <x-filament::grid.column span="4">
+            <x-filament::card>
+                <div class="flex items-center gap-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Status Perangkat</h3>
+                        <p class="mt-2 text-3xl font-semibold text-green-600">Aktif</p>
+                    </div>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Kipas</span>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                        Nonaktif
-                    </span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Lampu UV</span>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Aktif
-                    </span>
-                </div>
-            </div>
-        </div>
+            </x-filament::card>
+        </x-filament::grid.column>
 
-        <!-- Quick Actions Card -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-900">Aksi Cepat</h3>
-                <i class="fi fi-rr-apps text-primary-600 text-2xl"></i>
-            </div>
-            <div class="space-y-3">
-                <button class="w-full bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors">
-                    Kontrol Perangkat
-                </button>
-                <button class="w-full bg-primary-100 text-primary-700 px-4 py-2 rounded-lg hover:bg-primary-200 transition-colors">
-                    Lihat Laporan
-                </button>
-                <button class="w-full bg-primary-100 text-primary-700 px-4 py-2 rounded-lg hover:bg-primary-200 transition-colors">
-                    Pengaturan
-                </button>
-            </div>
+        <x-filament::grid.column span="4">
+            <x-filament::card>
+                <div class="flex items-center gap-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Notifikasi</h3>
+                        <p class="mt-2 text-3xl font-semibold text-gray-900">0</p>
+                    </div>
+                </div>
+            </x-filament::card>
+        </x-filament::grid.column>
+    </x-filament::grid>
+
+    {{-- Quick Actions --}}
+    <x-filament::section class="mt-8">
+        <x-slot name="heading">Aksi Cepat</x-slot>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <x-filament::button wire:click="redirectToGreenhouse">
+                Tambah Greenhouse
+            </x-filament::button>
+
+            <x-filament::button wire:click="redirectToMonitoring">
+                Lihat Monitoring
+            </x-filament::button>
+
+            <x-filament::button wire:click="redirectToSettings">
+                Pengaturan
+            </x-filament::button>
+
+            <x-filament::button wire:click="redirectToHelp">
+                Bantuan
+            </x-filament::button>
         </div>
-    </div>
+    </x-filament::section>
 </x-filament-panels::page> 
