@@ -1,8 +1,12 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
 
-@config '../../../tailwind.config.js';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 :root {
+    --font-family: 'DM Sans', sans-serif;
     --color-primary-50: 240 253 244;
     --color-primary-100: 220 252 231;
     --color-primary-200: 187 247 208;
@@ -17,7 +21,7 @@
 }
 
 .fi-sidebar {
-    @apply bg-white border-r border-gray-200;
+    @apply bg-green-500/10;
 }
 
 .fi-sidebar-header {

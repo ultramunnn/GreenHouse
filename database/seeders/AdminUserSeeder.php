@@ -14,22 +14,17 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-          // Cek apakah user admin sudah ada berdasarkan email
         $adminEmail = 'admin@gmail.com';
 
-        $user = User::where('email', $adminEmail)->first();
-
-        if (! $user) {
-            User::create([
+        User::firstOrCreate(
+            ['email' => $adminEmail],
+            [
                 'name' => 'Admin',
-                'email' => $adminEmail,
-                'password' => Hash::make('123'), // Ganti sesuai kebutuhan
+                'password' => Hash::make('123'),
                 'role' => 'admin',
                 'is_approved' => true,
-            ]);
-            $this->command->info('Admin user berhasil dibuat.');
-        } else {
-            $this->command->info('Admin user sudah ada, tidak dibuat ulang.');
-        }
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }

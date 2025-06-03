@@ -2,28 +2,38 @@
 
 namespace App\Filament\User\Pages;
 
-use Filament\Pages\Dashboard as BasePage;
+use Filament\Pages\Dashboard as BaseDashboard;
+use Filament\Support\Facades\FilamentView;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\Support\Htmlable;
 
-class Dashboard extends BasePage
+class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
-    protected static string $view = 'filament.user.pages.dashboard';
+    protected static ?string $navigationLabel = 'Dashboard';
+    protected static ?string $title = 'Dashboard';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->check();
+    }
     
     public function getTitle(): string 
     {
-        return 'Dashboard';
+        return 'Dashboard GreenHouse';
     }
 
     protected function getHeaderWidgets(): array
     {
-        return [];
+        return [
+            // Widget akan ditambahkan nanti
+        ];
     }
 
     public function mount(): void
     {
-        if (auth()->user()->role === 'admin') {
-            redirect()->to('/admin')->send();
+        if (auth()->user()->isAdmin()) {
+            redirect()->route('filament.admin.pages.dashboard');
         }
     }
 

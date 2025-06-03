@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserRole
+class RoleMiddleware
 {
     public function handle(Request $request, Closure $next, string $role): Response
     {
@@ -14,12 +14,12 @@ class EnsureUserRole
             return redirect()->route('filament.user.auth.login');
         }
 
-        if ($role === 'admin' && auth()->user()->role !== 'admin') {
-            return redirect()->route('filament.user.pages.dashboard')
-                ->with('error', 'Anda tidak memiliki akses ke halaman admin.');
-        }
+        if (auth()->user()->role !== $role) {
+            if ($role === 'admin') {
+                return redirect()->route('filament.user.pages.dashboard')
+                    ->with('error', 'Anda tidak memiliki akses ke halaman admin.');
+            }
 
-        if ($role === 'user' && auth()->user()->role !== 'user') {
             return redirect()->route('filament.admin.pages.dashboard')
                 ->with('error', 'Halaman ini hanya untuk user.');
         }

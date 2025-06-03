@@ -5,11 +5,11 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
+use Filament\Admin\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
+use Filament\Admin\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -17,6 +17,14 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Http\Middleware\AdminMiddleware;
+use App\Filament\Admin\Pages\Dashboard;
+use App\Filament\Admin\Resources\UserResource;
+use App\Filament\Admin\Resources\DevicesResource;
+use App\Filament\Admin\Resources\DeviceKategoryResource;
+use App\Filament\Admin\Resources\LogAktivitasResource;
+use App\Filament\Admin\Widgets\StatsOverviewWidget;
+use App\Filament\Admin\Widgets\BlogPostsChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -25,16 +33,24 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
+            ->login()
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Emerald,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->pages([
-                Pages\Dashboard::class,
+            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
+            ->resources([
+                UserResource::class,
+                DevicesResource::class,
+                DeviceKategoryResource::class,
+                LogAktivitasResource::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                StatsOverviewWidget::class,
+                BlogPostsChart::class
+            ])
+            ->pages([
+                Dashboard::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -46,12 +62,13 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                'role:admin',
             ])
             ->authMiddleware([
                 Authenticate::class,
+                AdminMiddleware::class,
             ])
             ->authGuard('web')
-            ->brandName('GreenHouse Admin');
+            ->brandName('Admin Panel')
+            ->viteTheme('resources/css/app.css');
     }
 }

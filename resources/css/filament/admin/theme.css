@@ -1,0 +1,13 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --font-family: 'DM Sans', sans-serif;
+}
+
+.fi-sidebar {
+    @apply bg-amber-500/10;
+} 

@@ -1,6 +1,8 @@
+
+@import './filament/admin/theme.css';
+@import './filament/user/theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
-
-@import './filament/user/theme.css';

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\MasterKategoriDevice;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Devices extends Model
 {
@@ -19,7 +20,7 @@ class Devices extends Model
         'keterangan',
     ];
 
-    public function kategori()
+    public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriDevice::class, 'masterkategori_device_id');
     }

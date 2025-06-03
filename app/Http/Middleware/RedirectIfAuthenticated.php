@@ -19,10 +19,10 @@ class RedirectIfAuthenticated
                 $user = Auth::guard($guard)->user();
                 
                 if ($user->role === 'admin') {
-                    return redirect('/admin/dashboard');
+                    return redirect()->route('filament.admin.pages.dashboard');
                 }
                 
-                return redirect('/dashboard');
+                return redirect()->route('filament.user.pages.dashboard');
             }
         }
 

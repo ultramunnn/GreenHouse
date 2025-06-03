@@ -14,10 +14,10 @@ use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\User\Pages\Dashboard;
-use Illuminate\Session\Middleware\AuthenticateSession;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -29,6 +29,7 @@ class UserPanelProvider extends PanelProvider
             ->path('user')
             ->login()
             ->registration()
+            ->profile()
             ->colors([
                 'primary' => Color::Green,
             ])
@@ -49,6 +50,7 @@ class UserPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\ApprovedUserMiddleware::class,
             ])
             ->authGuard('web')
             ->brandName('GreenHouse')

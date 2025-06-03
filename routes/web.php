@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +32,17 @@ Route::middleware('guest')->group(function () {
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', function () {
+        auth()->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
+
     Route::get('/dashboard', function() {
         if (auth()->user()->role === 'admin') {
-            return redirect('/admin/dashboard');
+            return redirect()->route('filament.admin.pages.dashboard');
         }
-        return redirect('/user/dashboard');
+        return redirect()->route('filament.user.pages.dashboard');
     })->name('dashboard');
 });

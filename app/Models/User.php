@@ -51,20 +51,15 @@ class User extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'is_approved' => 'boolean',
     ];
 
     public function canAccessPanel(Panel $panel): bool
     {
         if ($panel->getId() === 'admin') {
-            return $this->role === 'admin';
+            return $this->isAdmin();
         }
 
-        if ($panel->getId() === 'user') {
-            return $this->role === 'user';
-        }
-
-        return false;
+        return true;
     }
 
     public function isAdmin(): bool
