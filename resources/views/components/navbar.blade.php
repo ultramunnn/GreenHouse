@@ -2,7 +2,7 @@
 <nav class="bg-white/90 backdrop-blur-sm fixed w-full z-10 shadow-sm">
     <div class="container mx-auto px-6 py-4">
         <div class="flex justify-between items-center">
-            <a href="/" class="text-primary font-['Pacifico'] text-2xl">logo</a>
+            <a href="/" class="text-primary font-['Pacifico'] text-2xl">GreenHouse</a>
             
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-8">

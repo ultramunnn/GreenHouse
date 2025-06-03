@@ -3,7 +3,7 @@
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             <div>
-                <a href="#" class="text-white font-['Pacifico'] text-2xl mb-6 inline-block">logo</a>
+                <a href="#" class="text-white font-['Pacifico'] text-2xl mb-6 inline-block">GreenHouse</a>
                 <p class="text-gray-300 mb-6">Solusi greenhouse modern untuk pertanian berkelanjutan dan hasil panen maksimal.</p>
                 <div class="flex space-x-4">
                     <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
@@ -20,7 +20,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div>
                 <h3 class="text-lg font-semibold mb-6">Tautan Cepat</h3>
                 <ul class="space-y-3">
@@ -31,7 +31,7 @@
                     <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Blog</a></li>
                 </ul>
             </div>
-            
+
             <div>
                 <h3 class="text-lg font-semibold mb-6">Kontak</h3>
                 <ul class="space-y-3">
@@ -55,21 +55,11 @@
                     </li>
                 </ul>
             </div>
-            
-            <div>
-                <h3 class="text-lg font-semibold mb-6">Berlangganan</h3>
-                <p class="text-gray-300 mb-4">Dapatkan tips dan berita terbaru tentang pertanian modern.</p>
-                <form class="space-y-3">
-                    <div class="relative">
-                        <input type="email" placeholder="Email Anda" class="w-full px-4 py-3 bg-gray-700 text-white rounded border-none focus:ring-2 focus:ring-primary">
-                    </div>
-                    <button type="submit" class="w-full bg-primary text-white px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap">Berlangganan</button>
-                </form>
-            </div>
+
         </div>
-        
-        <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+
+        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-200">
             <p>&copy; {{ date('Y') }} GreenHouse. Hak Cipta Dilindungi.</p>
         </div>
     </div>
-</footer> 
+</footer>
