@@ -1,5 +1,5 @@
 <!-- Tentang Kami -->
-<section id="tentang" class="py-20 bg-white">
+<section id="tentang" class="py-4 bg-white">
     <div class="container mx-auto px-6">
         <div class="flex flex-col-reverse md:flex-row items-center gap-12">
             <div class="w-full md:w-1/2">

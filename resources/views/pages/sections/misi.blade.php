@@ -1,5 +1,5 @@
 <!-- Misi -->
-<section id="misi" class="py-20 section-pattern">
+<section id="misi" class="py-4 section-pattern py-1 bg-white mt-2">
     <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row items-center gap-12">
             <div class="w-full md:w-1/2">
@@ -39,11 +39,7 @@
                 </div>
             </div>
             
-            <div class="w-full md:w-1/2">
-                <img src="https://readdy.ai/api/search-image?query=A%20minimalist%20infographic%20showing%20sustainable%20farming%20statistics%20with%20clean%20design.%20The%20image%20features%20simple%20green%20icons%20representing%20water%20savings%2C%20increased%20yield%2C%20and%20reduced%20land%20use.%20The%20background%20is%20white%20with%20subtle%20leaf%20patterns.%20The%20design%20uses%20a%20clean%2C%20modern%20aesthetic%20with%20a%20green%20color%20palette.%20The%20infographic%20shows%20data%20visualizations%20with%20percentages%20for%20sustainability%20metrics.&width=600&height=600&seq=greenhouse-mission&orientation=squarish" 
-                     alt="Misi Greenhouse" 
-                     class="w-full h-auto rounded-lg shadow-lg">
-            </div>
+           
         </div>
     </div>
 </section> 

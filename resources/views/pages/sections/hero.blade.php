@@ -1,5 +1,5 @@
 <!-- Hero Section -->
-<section id="home" class="hero-section w-full min-h-screen flex items-center pt-16">
+<section id="home" class="hero-section w-full h-scree flex items-center pt-16">
     <div class="hero-overlay w-full min-h-screen flex items-center">
         <div class="container mx-auto px-6 py-20">
             <div class="w-full md:w-1/2 lg:w-2/5">

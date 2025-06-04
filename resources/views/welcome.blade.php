@@ -5,7 +5,6 @@
     @include('pages.sections.cara-kerja')
     @include('pages.sections.misi')
     @include('pages.sections.tentang')
-    @include('pages.sections.cta')
 @endsection
 
 @push('styles')
