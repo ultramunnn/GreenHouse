@@ -18,7 +18,13 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 $user = Auth::guard($guard)->user();
                 
-                if ($user->role === 'admin') {
+                if (!$user->isApproved()) {
+                    Auth::logout();
+                    return redirect()->route('filament.user.auth.login')
+                        ->with('error', 'Your account is pending approval.');
+                }
+                
+                if ($user->isAdmin()) {
                     return redirect()->route('filament.admin.pages.dashboard');
                 }
                 

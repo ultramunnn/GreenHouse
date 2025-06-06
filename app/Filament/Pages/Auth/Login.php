@@ -71,10 +71,10 @@ class Login extends BaseLogin
 
         // Redirect based on user role
         if ($user->isAdmin()) {
-            return app(FilamentLoginResponse::class)->setIntendedUrl(route('filament.admin.pages.dashboard'));
+            return app(FilamentLoginResponse::class);
         }
 
-        return app(FilamentLoginResponse::class)->setIntendedUrl(route('filament.user.pages.dashboard'));
+        return app(FilamentLoginResponse::class);
     }
 
     public function form(Form $form): Form

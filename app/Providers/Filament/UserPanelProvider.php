@@ -50,11 +50,9 @@ class UserPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                RedirectAfterLogout::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
-                \App\Http\Middleware\ApprovedUserMiddleware::class,
             ])
             ->authGuard('web')
             ->brandName('GreenHouse')
