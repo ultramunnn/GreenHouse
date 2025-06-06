@@ -25,6 +25,8 @@ use App\Filament\Admin\Resources\DeviceKategoryResource;
 use App\Filament\Admin\Resources\LogAktivitasResource;
 use App\Filament\Admin\Widgets\StatsOverviewWidget;
 use App\Filament\Admin\Widgets\BlogPostsChart;
+use App\Filament\Pages\Auth\Login;
+use App\Http\Middleware\RedirectAfterLogout;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -33,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(Login::class)
             ->colors([
                 'primary' => Color::Emerald,
             ])
@@ -50,7 +52,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->pages([
                 Dashboard::class,
-
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -62,6 +63,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                RedirectAfterLogout::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -69,6 +71,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authGuard('web')
             ->brandName('Admin Panel')
-            ->viteTheme('resources/css/app.css');
+            ->viteTheme('resources/css/app.css')
+            ->spa();
     }
 }

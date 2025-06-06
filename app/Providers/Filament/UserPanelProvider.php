@@ -18,6 +18,9 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\User\Pages\Dashboard;
+use App\Filament\Pages\Auth\Login;
+use App\Filament\Pages\Auth\Register;
+use App\Http\Middleware\RedirectAfterLogout;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -27,8 +30,8 @@ class UserPanelProvider extends PanelProvider
             ->default()
             ->id('user')
             ->path('user')
-            ->login()
-            ->registration()
+            ->login(Login::class)
+            ->registration(Register::class)
             ->profile()
             ->colors([
                 'primary' => Color::Green,
@@ -47,6 +50,7 @@ class UserPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                RedirectAfterLogout::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -54,6 +58,7 @@ class UserPanelProvider extends PanelProvider
             ])
             ->authGuard('web')
             ->brandName('GreenHouse')
-            ->viteTheme('resources/css/app.css');
+            ->viteTheme('resources/css/app.css')
+            ->spa();
     }
 } 
