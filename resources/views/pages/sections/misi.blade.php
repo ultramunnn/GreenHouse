@@ -1,5 +1,5 @@
 <!-- Misi -->
-<section id="misi" class="py-4 section-pattern py-1 bg-white mt-2">
+<section id="misi" class=" section-pattern py-20 px-5  bg-white mt-40">
     <div class="container mx-auto px-6">
         <div class="flex flex-col md:flex-row items-center gap-12">
             <div class="w-full md:w-1/2">
