@@ -4,35 +4,54 @@ namespace App\Filament\Pages\Auth;
 
 use Filament\Pages\Auth\Login as BaseLogin;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Form;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Filament\Http\Responses\Auth\LoginResponse as FilamentLoginResponse;
 
 class Login extends BaseLogin
 {
+    use WithRateLimiting;
+
+    protected static string $view = 'filament.pages.auth.login';
+
+    public function mount(): void
+    {
+        if (Filament::auth()->check()) {
+            redirect()->intended(Filament::getUrl());
+        }
+
+        $this->form->fill();
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('back')
+                ->label('Back to Home')
+                ->url('/')
+                ->color('gray')
+                ->icon('heroicon-m-arrow-left')
+                ->size('sm')
+                ->outlined(),
+        ];
+    }
+
     public function authenticate(): ?LoginResponse
     {
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
             Notification::make()
-                ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
-                    'seconds' => $exception->secondsUntilAvailable,
-                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
-                ]))
-                ->body(__('filament-panels::pages/auth/login.notifications.throttled.body', [
-                    'seconds' => $exception->secondsUntilAvailable,
-                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
-                ]))
+                ->title('Terlalu banyak percobaan')
+                ->body('Silakan tunggu beberapa saat sebelum mencoba lagi.')
                 ->danger()
                 ->send();
 
@@ -41,26 +60,23 @@ class Login extends BaseLogin
 
         $data = $this->form->getState();
 
-        $credentials = [
+        if (!Auth::attempt([
             'email' => $data['email'],
             'password' => $data['password'],
-        ];
-
-        if (! Auth::attempt($credentials, $data['remember'] ?? false)) {
+        ])) {
             throw ValidationException::withMessages([
-                'data.email' => __('filament-panels::pages/auth/login.messages.failed'),
+                'data.email' => 'Email atau password salah',
             ]);
         }
 
         $user = Auth::user();
         
-        // Check if user is approved
-        if (!$user->isApproved()) {
+        if (!$user->isApproved() && !$user->isAdmin()) {
             Auth::logout();
             
             Notification::make()
-                ->title('Account Pending Approval')
-                ->body('Your account is pending approval from an administrator.')
+                ->title('Akun Belum Disetujui')
+                ->body('Akun Anda sedang menunggu persetujuan dari administrator.')
                 ->warning()
                 ->send();
                 
@@ -69,12 +85,7 @@ class Login extends BaseLogin
 
         session()->regenerate();
 
-        // Redirect based on user role
-        if ($user->isAdmin()) {
-            return app(FilamentLoginResponse::class);
-        }
-
-        return app(FilamentLoginResponse::class);
+        return app(LoginResponse::class);
     }
 
     public function form(Form $form): Form
@@ -83,7 +94,6 @@ class Login extends BaseLogin
             ->schema([
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
-                $this->getRememberFormComponent(),
             ])
             ->statePath('data');
     }
@@ -91,34 +101,28 @@ class Login extends BaseLogin
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
-            ->label(__('filament-panels::pages/auth/login.form.email.label'))
+            ->label('Email')
             ->email()
             ->required()
-            ->autocomplete()
+            ->maxLength(255)
             ->autofocus();
     }
 
     protected function getPasswordFormComponent(): Component
     {
         return TextInput::make('password')
-            ->label(__('filament-panels::pages/auth/login.form.password.label'))
+            ->label('Password')
             ->password()
             ->required();
     }
 
-    protected function getRememberFormComponent(): Component
-    {
-        return Checkbox::make('remember')
-            ->label(__('filament-panels::pages/auth/login.form.remember.label'));
-    }
-
     public function getTitle(): string | Htmlable
     {
-        return 'Login to GreenHouse';
+        return 'Login ke GreenHouse';
     }
 
     public function getHeading(): string | Htmlable
     {
-        return 'Welcome Back';
+        return 'Login';
     }
 } 

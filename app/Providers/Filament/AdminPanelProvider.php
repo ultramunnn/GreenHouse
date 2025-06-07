@@ -64,14 +64,14 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 RedirectAfterLogout::class,
+                AdminMiddleware::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
-                AdminMiddleware::class,
             ])
             ->authGuard('web')
             ->brandName('Admin Panel')
             ->viteTheme('resources/css/app.css')
             ->spa();
-    }
+            }
 }

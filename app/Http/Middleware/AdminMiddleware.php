@@ -15,8 +15,9 @@ class AdminMiddleware
                 ->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        if (!auth()->user()->isAdmin()) {
-            return redirect()->route('filament.user.pages.dashboard')
+        if (auth()->user()->role !== 'admin') {
+            auth()->logout();
+            return redirect()->route('filament.user.auth.login')
                 ->with('error', 'Anda tidak memiliki akses ke halaman admin.');
         }
 

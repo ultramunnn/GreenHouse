@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use Filament\Pages\Dashboard as BaseDashboard;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends BaseDashboard
 {
@@ -17,8 +18,9 @@ class Dashboard extends BaseDashboard
 
     public function mount(): void
     {
-        if (!auth()->user()->isAdmin()) {
-            redirect()->route('filament.user.pages.dashboard');
+        if (!auth()->check() || auth()->user()->role !== 'admin') {
+            Auth::logout();
+            $this->redirect(route('filament.user.auth.login'));
         }
     }
 } 

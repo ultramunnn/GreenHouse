@@ -6,6 +6,7 @@ use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Support\Facades\FilamentView;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends BaseDashboard
 {
@@ -15,7 +16,7 @@ class Dashboard extends BaseDashboard
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check();
+        return auth()->check() && auth()->user()->role === 'user';
     }
     
     public function getTitle(): string 
@@ -32,8 +33,20 @@ class Dashboard extends BaseDashboard
 
     public function mount(): void
     {
-        if (auth()->user()->isAdmin()) {
-            redirect()->route('filament.admin.pages.dashboard');
+        if (!auth()->check()) {
+            $this->redirect(route('filament.user.auth.login'));
+            return;
+        }
+
+        if (auth()->user()->role === 'admin') {
+            $this->redirect(route('filament.admin.pages.dashboard'));
+            return;
+        }
+
+        if (!auth()->user()->isApproved()) {
+            Auth::logout();
+            $this->redirect(route('filament.user.auth.login'));
+            return;
         }
     }
 

@@ -24,7 +24,7 @@ class RedirectIfAuthenticated
                         ->with('error', 'Your account is pending approval.');
                 }
                 
-                if ($user->isAdmin()) {
+                if ($user->role === 'admin') {
                     return redirect()->route('filament.admin.pages.dashboard');
                 }
                 
