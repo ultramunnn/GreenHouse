@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 
 /**
- * Controller untuk menangani operasi terkait sensor
- * Bertugas mengelola penyimpanan dan pengambilan data sensor
+ * Controller untuk mengelola operasi terkait sensor
+ * Menangani permintaan HTTP untuk data sensor dan perangkat
  */
 class SensorController extends Controller
 {
@@ -124,5 +124,23 @@ class SensorController extends Controller
                 'error' => 'Terjadi kesalahan saat mengambil data sensor'
             ], 500);
         }
+    }
+
+    /**
+     * Menampilkan halaman dashboard dengan data sensor
+     * Mengambil data device dan transaksi sensor terbaru
+     */
+    public function dashboard()
+    {
+        // Implementasi method dashboard
+    }
+
+    /**
+     * Mengambil data sensor terbaru untuk ditampilkan
+     * Digunakan untuk pembaruan real-time pada dashboard
+     */
+    public function getLatestSensorData()
+    {
+        // Implementasi method getLatestSensorData
     }
 }

@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Model untuk menyimpan data transaksi sensor
- * Model ini menangani pencatatan nilai-nilai yang dibaca dari sensor
+ * Model untuk mengelola data transaksi sensor
+ * Model ini menyimpan data hasil pembacaan dari sensor-sensor yang terpasang
  */
 class TransaksiSensor extends Model
 {
@@ -17,7 +17,10 @@ class TransaksiSensor extends Model
     // Menentukan nama tabel yang digunakan di database
     protected $table = 'transaksi_sensor';
 
-    // Kolom-kolom yang dapat diisi secara massal
+    /**
+     * Mendefinisikan kolom-kolom yang dapat diisi (fillable)
+     * Data yang disimpan mencakup nilai sensor dan waktu pencatatan
+     */
     protected $fillable = [
         'masterdevice_id', // ID referensi ke master device
         'nilai',           // Nilai yang dibaca dari sensor
@@ -33,7 +36,10 @@ class TransaksiSensor extends Model
         'waktu_pencatatan' => 'datetime'  // Memastikan waktu dalam format datetime
     ];
 
-    // Relasi ke model MasterDevice - Setiap transaksi sensor berkaitan dengan satu master device
+    /**
+     * Relasi dengan model Devices
+     * Setiap transaksi sensor terkait dengan satu device tertentu
+     */
     public function masterDevice(): BelongsTo
     {
         return $this->belongsTo(MasterDevice::class, 'masterdevice_id');

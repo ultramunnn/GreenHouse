@@ -21,8 +21,8 @@ use App\Filament\User\Pages\Dashboard;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
 use App\Http\Middleware\RedirectAfterLogout;
-use App\Filament\User\Widgets\SensorDataChart;
-use App\Filament\User\Widgets\StatsOverviewWidget;
+use App\Filament\User\Widgets\SensorDataChart; // Tambahkan import ini
+use App\Filament\User\Widgets\SensorStatsWidget;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -39,13 +39,12 @@ class UserPanelProvider extends PanelProvider
                 'primary' => Color::Green,
             ])
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
-            ->discoverWidgets(in: app_path('Filament/User/Widgets'), for: 'App\\Filament\\User\\Widgets')
             ->pages([
                 Dashboard::class,
             ])
-            ->widgets([
-                StatsOverviewWidget::class,
+            ->widgets([ // Tambahkan konfigurasi widget ini
                 SensorDataChart::class,
+B
             ])
             ->middleware([
                 EncryptCookies::class,
