@@ -22,6 +22,7 @@ use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
 use App\Http\Middleware\RedirectAfterLogout;
 use App\Filament\User\Widgets\SensorDataChart;
+use App\Filament\User\Widgets\StatsOverviewWidget;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -43,6 +44,7 @@ class UserPanelProvider extends PanelProvider
                 Dashboard::class,
             ])
             ->widgets([
+                StatsOverviewWidget::class,
                 SensorDataChart::class,
             ])
             ->middleware([

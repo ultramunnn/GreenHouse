@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Widgets;
+namespace App\Filament\User\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use App\Models\Devices;
-use App\Models\LogAktivitas;
-use App\Models\KategoriDevice;
+use App\Models\TransaksiSensor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -36,7 +34,6 @@ class StatsOverviewWidget extends BaseWidget
                 ->description('Waktu pembacaan terakhir')
                 ->icon('heroicon-m-clock')
                 ->color('success'),
-           
         ];
     }
 }

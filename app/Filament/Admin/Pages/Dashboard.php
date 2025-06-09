@@ -10,10 +10,17 @@ class Dashboard extends BaseDashboard
     protected static ?string $navigationIcon = 'heroicon-o-home';
     protected static ?string $navigationLabel = 'Dashboard Admin';
     protected static ?string $title = 'Dashboard Admin';
-    
-    public function getTitle(): string 
+
+    public function getTitle(): string
     {
         return 'Dashboard Admin GreenHouse';
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+        
+        ];
     }
 
     public function mount(): void
@@ -23,4 +30,4 @@ class Dashboard extends BaseDashboard
             $this->redirect(route('filament.user.auth.login'));
         }
     }
-} 
+}

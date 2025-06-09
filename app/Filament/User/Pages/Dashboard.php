@@ -9,7 +9,6 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 
 
-
 class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
@@ -29,7 +28,7 @@ class Dashboard extends BaseDashboard
     protected function getHeaderWidgets(): array
     {
         return [
-            
+        
         ];
     }
 
@@ -52,35 +51,4 @@ class Dashboard extends BaseDashboard
         }
     }
 
-    public function redirectToGreenhouse()
-    {
-        Notification::make()
-            ->title('Fitur dalam pengembangan')
-            ->warning()
-            ->send();
-    }
-
-    public function redirectToMonitoring()
-    {
-        Notification::make()
-            ->title('Fitur dalam pengembangan')
-            ->warning()
-            ->send();
-    }
-
-    public function redirectToSettings()
-    {
-        Notification::make()
-            ->title('Fitur dalam pengembangan')
-            ->warning()
-            ->send();
-    }
-
-    public function redirectToHelp()
-    {
-        Notification::make()
-            ->title('Fitur dalam pengembangan')
-            ->warning()
-            ->send();
-    }
 }
