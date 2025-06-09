@@ -16,7 +16,7 @@ class SensorController extends Controller
         DB::beginTransaction();
         try {
             // Log detail request
-            Log::info('=== START SENSOR STORE/UPDATE ===');
+            Log::info('=== START SENSOR UPDATE ===');
             Log::info('Request Method: ' . $request->method());
             Log::info('Request URL: ' . $request->url());
             Log::info('Request Headers:', $request->headers->all());
@@ -45,24 +45,19 @@ class SensorController extends Controller
             Log::info('MasterDevice found:', $masterDevice->toArray());
 
             try {
-                // Buat record baru untuk setiap pembacaan sensor
-                $transaksiSensor = new TransaksiSensor();
-                $transaksiSensor->masterdevice_id = $validated['masterdevice_id'];
-                $transaksiSensor->nilai = $validated['nilai'];
-                $transaksiSensor->waktu_pencatatan = $validated['waktu_pencatatan'];
-                
-                // Timestamps akan diupdate otomatis oleh Laravel
-                $saved = $transaksiSensor->save();
+                // Update atau buat record untuk device ini
+                $transaksiSensor = TransaksiSensor::updateOrCreate(
+                    ['masterdevice_id' => $validated['masterdevice_id']],
+                    [
+                        'nilai' => $validated['nilai'],
+                        'waktu_pencatatan' => $validated['waktu_pencatatan']
+                    ]
+                );
 
-                Log::info('Save result:', ['saved' => $saved]);
                 Log::info('TransaksiSensor data:', $transaksiSensor->toArray());
 
-                if (!$saved) {
-                    throw new Exception('Failed to save TransaksiSensor');
-                }
-
             } catch (Exception $e) {
-                Log::error('Error saving TransaksiSensor:', [
+                Log::error('Error updating TransaksiSensor:', [
                     'message' => $e->getMessage(),
                     'trace' => $e->getTraceAsString(),
                     'data' => $validated
@@ -72,12 +67,12 @@ class SensorController extends Controller
 
             DB::commit();
             Log::info('Transaction committed successfully');
-            Log::info('=== END SENSOR STORE/UPDATE ===');
+            Log::info('=== END SENSOR UPDATE ===');
 
             return response()->json([
-                'message' => 'Data berhasil disimpan',
+                'message' => 'Data berhasil diupdate',
                 'data' => $transaksiSensor
-            ], 201);
+            ], 200);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
@@ -97,7 +92,7 @@ class SensorController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             return response()->json([
-                'error' => 'Terjadi kesalahan saat menyimpan data sensor',
+                'error' => 'Terjadi kesalahan saat mengupdate data sensor',
                 'message' => $e->getMessage()
             ], 500);
         }
