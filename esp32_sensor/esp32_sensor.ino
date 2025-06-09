@@ -1,9 +1,15 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <time.h>
 
-const char* ssid = "Sejahtera bersama";
-const char* password = "12345678x";
+const char* ssid = "PONITI";
+const char* password = "12345678";
 const char* serverUrl = "http://192.168.1.11:8000/api/sensor";
+
+// NTP Server Settings
+const char* ntpServer = "pool.ntp.org";
+const long gmtOffset_sec = 25200;  // GMT+7 (7 * 60 * 60)
+const int daylightOffset_sec = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -19,17 +25,28 @@ void setup() {
   Serial.println("\nConnected to WiFi!");
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
+
+  // Init and get the time
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  
+  // Wait until time is synchronized
+  Serial.println("Waiting for NTP time sync...");
+  while (time(nullptr) < 1000000000) {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println("\nTime synchronized!");
 }
 
 String getFormattedTime() {
-  // Format waktu HH:MM:SS
-  unsigned long timeInSeconds = millis() / 1000;
-  unsigned long hours = (timeInSeconds / 3600) % 24;
-  unsigned long minutes = (timeInSeconds / 60) % 60;
-  unsigned long seconds = timeInSeconds % 60;
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("Failed to obtain time");
+    return "now"; // fallback value
+  }
   
-  char timeStr[9];
-  sprintf(timeStr, "%02lu:%02lu:%02lu", hours, minutes, seconds);
+  char timeStr[25];
+  strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &timeinfo);
   return String(timeStr);
 }
 
@@ -45,15 +62,15 @@ void sendDataToAPI() {
   http.setTimeout(15000);
   
   // Data sensor (dummy)
-  static float luxValue = 25.0;
+  static float luxValue = 2.0;
   luxValue += 0.5;
   if (luxValue > 100) luxValue = 25.0;
   
-  // Format waktu untuk pencatatan
+  // Get current time for logging
   String waktuPencatatan = getFormattedTime();
   
-  // Buat JSON dengan waktu yang diformat
-  String payload = "{\"masterdevice_id\": 5, \"nilai\": " + String(luxValue, 1) + 
+  // Create JSON with formatted time
+  String payload = "{\"masterdevice_id\": 1, \"nilai\": " + String(luxValue, 1) + 
                   ", \"waktu_pencatatan\": \"" + waktuPencatatan + "\"}";
   
   Serial.println("Sending: " + payload);
@@ -64,16 +81,6 @@ void sendDataToAPI() {
     String response = http.getString();
     Serial.println("Success! Response code: " + String(httpResponseCode));
     Serial.println("Response: " + response);
-    
-    // Parse server time jika ada
-    if (response.indexOf("server_time") > 0) {
-      int startIdx = response.indexOf("server_time") + 14;
-      int endIdx = response.indexOf("\"", startIdx);
-      if (startIdx > 0 && endIdx > 0) {
-        String serverTime = response.substring(startIdx, endIdx);
-        Serial.println("Server time: " + serverTime);
-      }
-    }
   } else {
     Serial.println("Error: " + String(httpResponseCode));
     Serial.println("Error message: " + http.errorToString(httpResponseCode));
@@ -84,5 +91,5 @@ void sendDataToAPI() {
 
 void loop() {
   sendDataToAPI();
-  delay(5000);
-} 
+  delay(10000);
+}

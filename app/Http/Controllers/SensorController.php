@@ -26,7 +26,7 @@ class SensorController extends Controller
             $validated = $request->validate([
                 'masterdevice_id' => 'required|integer|exists:masterdevice,id',
                 'nilai' => 'required|numeric',
-                'waktu_pencatatan' => 'required|string',
+                'waktu_pencatatan' => 'required|date_format:Y-m-d H:i:s',
             ]);
 
             Log::info('Validation passed. Validated data:', $validated);
@@ -44,32 +44,12 @@ class SensorController extends Controller
 
             Log::info('MasterDevice found:', $masterDevice->toArray());
 
-            // Cari data sensor terakhir untuk device ini
-            $transaksiSensor = TransaksiSensor::where('masterdevice_id', $validated['masterdevice_id'])
-                ->orderBy('created_at', 'desc')
-                ->first();
-
             try {
-                if (!$transaksiSensor) {
-                    // Jika belum ada data, buat baru
-                    Log::info('Creating new TransaksiSensor record');
-                    $transaksiSensor = new TransaksiSensor();
-                    $transaksiSensor->masterdevice_id = $validated['masterdevice_id'];
-                } else {
-                    Log::info('Updating existing TransaksiSensor record:', $transaksiSensor->toArray());
-                }
-
-                // Update nilai
+                // Buat record baru untuk setiap pembacaan sensor
+                $transaksiSensor = new TransaksiSensor();
+                $transaksiSensor->masterdevice_id = $validated['masterdevice_id'];
                 $transaksiSensor->nilai = $validated['nilai'];
-                
-                // Format waktu pencatatan
-                $waktuPencatatan = date('Y-m-d H:i:s');
-                if ($validated['waktu_pencatatan'] !== 'now') {
-                    // Jika waktu dikirim dari ESP32, gunakan waktu tersebut
-                    $waktuPencatatan = $validated['waktu_pencatatan'];
-                }
-                
-                $transaksiSensor->waktu_pencatatan = $waktuPencatatan;
+                $transaksiSensor->waktu_pencatatan = $validated['waktu_pencatatan'];
                 
                 // Timestamps akan diupdate otomatis oleh Laravel
                 $saved = $transaksiSensor->save();
@@ -80,6 +60,7 @@ class SensorController extends Controller
                 if (!$saved) {
                     throw new Exception('Failed to save TransaksiSensor');
                 }
+
             } catch (Exception $e) {
                 Log::error('Error saving TransaksiSensor:', [
                     'message' => $e->getMessage(),
@@ -93,11 +74,10 @@ class SensorController extends Controller
             Log::info('Transaction committed successfully');
             Log::info('=== END SENSOR STORE/UPDATE ===');
 
-            // Mengembalikan respons JSON dengan data yang disimpan/diupdate
             return response()->json([
-                'message' => $transaksiSensor->wasRecentlyCreated ? 'Data berhasil disimpan' : 'Data berhasil diupdate',
+                'message' => 'Data berhasil disimpan',
                 'data' => $transaksiSensor
-            ], $transaksiSensor->wasRecentlyCreated ? 201 : 200);
+            ], 201);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
@@ -117,7 +97,7 @@ class SensorController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             return response()->json([
-                'error' => 'Terjadi kesalahan saat menyimpan/mengupdate data sensor',
+                'error' => 'Terjadi kesalahan saat menyimpan data sensor',
                 'message' => $e->getMessage()
             ], 500);
         }

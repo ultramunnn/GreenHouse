@@ -8,6 +8,8 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
@@ -18,8 +20,8 @@ class Dashboard extends BaseDashboard
     {
         return auth()->check() && auth()->user()->role === 'user';
     }
-    
-    public function getTitle(): string 
+
+    public function getTitle(): string
     {
         return 'Dashboard GreenHouse';
     }
@@ -27,7 +29,7 @@ class Dashboard extends BaseDashboard
     protected function getHeaderWidgets(): array
     {
         return [
-            // Widget akan ditambahkan nanti
+            
         ];
     }
 
@@ -81,4 +83,4 @@ class Dashboard extends BaseDashboard
             ->warning()
             ->send();
     }
-} 
+}

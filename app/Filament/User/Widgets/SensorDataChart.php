@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Filament\Admin\Widgets;
+namespace App\Filament\User\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-class BlogPostsChart extends ChartWidget
+class SensorDataChart extends ChartWidget
 {
     protected static ?string $heading = 'Data Sensor Cahaya';
     protected static ?string $pollingInterval = '2s';
-    protected static string $chartId = 'sensor-chart-admin';
+    protected static string $chartId = 'sensor-chart-user';
 
     public ?string $masterKategoriDevice = 'LUX';
     protected $previousData = null;
