@@ -9,29 +9,37 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
+/**
+ * Controller untuk menangani operasi terkait sensor
+ * Bertugas mengelola penyimpanan dan pengambilan data sensor
+ */
 class SensorController extends Controller
 {
+    /**
+     * Menyimpan data pembacaan sensor ke database
+     * Menggunakan transaksi database untuk memastikan integritas data
+     */
     public function store(Request $request)
     {
         DB::beginTransaction();
         try {
-            // Log detail request
+            // Mencatat detail request untuk keperluan debugging
             Log::info('=== START SENSOR UPDATE ===');
             Log::info('Request Method: ' . $request->method());
             Log::info('Request URL: ' . $request->url());
             Log::info('Request Headers:', $request->headers->all());
             Log::info('Request Body:', $request->all());
 
-            // Validasi data yang masuk
+            // Validasi input yang masuk
             $validated = $request->validate([
-                'masterdevice_id' => 'required|integer|exists:masterdevice,id',
-                'nilai' => 'required|numeric',
-                'waktu_pencatatan' => 'required|date_format:Y-m-d H:i:s',
+                'masterdevice_id' => 'required|integer|exists:masterdevice,id',    // Memastikan device ada di database
+                'nilai' => 'required|numeric',                                      // Nilai sensor harus berupa angka
+                'waktu_pencatatan' => 'required|date_format:Y-m-d H:i:s',          // Format waktu yang valid
             ]);
 
             Log::info('Validation passed. Validated data:', $validated);
 
-            // Periksa apakah masterdevice ada
+            // Memeriksa keberadaan master device
             $masterDevice = MasterDevice::find($validated['masterdevice_id']);
             if (!$masterDevice) {
                 Log::error('MasterDevice not found:', ['id' => $validated['masterdevice_id']]);
@@ -98,6 +106,10 @@ class SensorController extends Controller
         }
     }
 
+    /**
+     * Mengambil semua data sensor
+     * Mengembalikan data dalam format JSON
+     */
     public function index()
     {
         try {
