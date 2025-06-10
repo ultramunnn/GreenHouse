@@ -1,3 +1,9 @@
+{{-- 
+    Halaman Registrasi
+    Menampilkan form registrasi untuk pengguna baru
+    Menyediakan fitur rate limiting dan validasi
+--}}
+
 @php
     use Filament\Support\Facades\FilamentView;
 @endphp

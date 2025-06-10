@@ -16,6 +16,12 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Halaman Login
+ * Menampilkan form login untuk pengguna
+ * Menyediakan fitur rate limiting dan validasi
+ */
+
 class Login extends BaseLogin
 {
     use WithRateLimiting;

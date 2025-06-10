@@ -6,12 +6,20 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Filament\Support\RawJs;
 
-class BlogPostsChart extends ChartWidget
+/**
+ * Widget SensorDataChart
+ * Menampilkan grafik data sensor dalam bentuk chart
+ * Memperbarui data secara real-time setiap 2 detik
+ */
+
+class SensorDataChart extends ChartWidget
 {
     protected static ?string $heading = 'Data Sensor Cahaya';
     protected static ?string $pollingInterval = '2s';
     protected static string $chartId = 'sensor-chart-admin';
+    protected int $height = 300;
 
     public ?string $masterKategoriDevice = 'LUX';
     protected $previousData = null;
@@ -70,7 +78,8 @@ class BlogPostsChart extends ChartWidget
 
     protected function getOptions(): array
     {
-        $maxValue = $this->getMaxValue();
+        $maxValue = $maxValue = max($this->getMaxValue(), 20000); // Ensure we can see up to at least 25,000 lux
+
 
         return [
             'scales' => [

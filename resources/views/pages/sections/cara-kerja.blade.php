@@ -1,3 +1,8 @@
+{{-- 
+    View Cara Kerja Section
+    Menampilkan langkah-langkah cara kerja sistem greenhouse
+    Terdiri dari 4 card yang menjelaskan proses dari perencanaan hingga monitoring
+--}}
 <!-- Cara Kerja -->
 <section id="cara-kerja" class="py-20 bg-white mt-2 p-5">
     <div class="container mx-auto px-3">
@@ -7,6 +12,7 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 py-10">
+            {{-- Card Perencanaan --}}
             <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
                 <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="ri-plant-line ri-xl text-primary"></i>
@@ -15,6 +21,7 @@
                 <p class="text-gray-600">Kami membantu Anda merencanakan greenhouse yang disesuaikan dengan kebutuhan dan ukuran lahan yang tersedia. Tanaman sudah ada, dan kami siap memasang sistem otomatis yang mudah digunakan.</p>
             </div>
             
+            {{-- Card Konstruksi --}}
             <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
                 <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="ri-building-line ri-xl text-primary"></i>
@@ -23,6 +30,7 @@
                 <p class="text-gray-600">Tim ahli kami akan memasang sensor dan mikrokontroler untuk memantau kondisi tanaman seperti cahaya, suhu, dan kelembapan secara real-time. Tidak perlu khawatir, teknologi kami sangat mudah diimplementasikan.</p>
             </div>
             
+            {{-- Card Otomatisasi --}}
             <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
                 <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="ri-settings-line ri-xl text-primary"></i>
@@ -31,6 +39,7 @@
                 <p class="text-gray-600">Sistem otomatis akan mengatur cahaya, suhu, dan kelembapan secara efisien, menjaga tanaman tetap tumbuh optimal tanpa perlu pengawasan terus-menerus.</p>
             </div>
             
+            {{-- Card Monitoring --}}
             <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center">
                 <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="ri-line-chart-line ri-xl text-primary"></i>

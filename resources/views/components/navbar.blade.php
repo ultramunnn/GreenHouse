@@ -1,3 +1,8 @@
+{{-- 
+    Komponen Navbar
+    Menampilkan navigasi utama aplikasi
+    Termasuk menu untuk desktop dan mobile, serta tombol login/register
+--}}
 <!-- Navbar -->
 <nav class="bg-white/90 backdrop-blur-sm fixed w-full z-10 shadow-sm">
     <div class="container mx-auto px-6 py-4">

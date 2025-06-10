@@ -6,6 +6,12 @@ use App\Filament\Admin\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
+/**
+ * Halaman Edit User
+ * Menampilkan form untuk mengubah data user yang ada
+ * Menyediakan opsi untuk menghapus user
+ */
+
 class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;

@@ -18,6 +18,11 @@ use Filament\Tables\Actions\CreateAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+/**
+ * Resource Devices
+ * Mengelola tampilan dan operasi CRUD untuk perangkat
+ * Digunakan di panel admin untuk mengelola data perangkat yang terdaftar
+ */
 class DevicesResource extends Resource
 {
     protected static ?string $model = Devices::class;

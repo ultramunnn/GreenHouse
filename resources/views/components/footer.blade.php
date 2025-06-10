@@ -1,3 +1,8 @@
+{{-- 
+    Komponen Footer
+    Menampilkan bagian bawah dari setiap halaman
+    Berisi informasi kontak, tautan cepat, dan media sosial
+--}}
 <!-- Footer -->
 <footer class="bg-gray-800 text-white py-16">
     <div class="container mx-auto px-6">

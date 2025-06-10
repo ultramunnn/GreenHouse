@@ -11,7 +11,7 @@ use Exception;
 
 /**
  * Controller untuk mengelola operasi terkait sensor
- * Menangani permintaan HTTP untuk data sensor dan perangkat
+ * Mengatur logika bisnis untuk pemrosesan data sensor dan interaksi dengan model terkait
  */
 class SensorController extends Controller
 {
@@ -53,14 +53,12 @@ class SensorController extends Controller
             Log::info('MasterDevice found:', $masterDevice->toArray());
 
             try {
-                // Update atau buat record untuk device ini
-                $transaksiSensor = TransaksiSensor::updateOrCreate(
-                    ['masterdevice_id' => $validated['masterdevice_id']],
-                    [
-                        'nilai' => $validated['nilai'],
-                        'waktu_pencatatan' => $validated['waktu_pencatatan']
-                    ]
-                );
+                // Create new record for each sensor reading
+                $transaksiSensor = TransaksiSensor::create([
+                    'masterdevice_id' => $validated['masterdevice_id'],
+                    'nilai' => $validated['nilai'],
+                    'waktu_pencatatan' => $validated['waktu_pencatatan']
+                ]);
 
                 Log::info('TransaksiSensor data:', $transaksiSensor->toArray());
 
@@ -78,7 +76,7 @@ class SensorController extends Controller
             Log::info('=== END SENSOR UPDATE ===');
 
             return response()->json([
-                'message' => 'Data berhasil diupdate',
+                'message' => 'Data berhasil ditambah',
                 'data' => $transaksiSensor
             ], 200);
 
@@ -100,7 +98,7 @@ class SensorController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             return response()->json([
-                'error' => 'Terjadi kesalahan saat mengupdate data sensor',
+                'error' => 'Terjadi kesalahan saat menambah data sensor',
                 'message' => $e->getMessage()
             ], 500);
         }
@@ -128,7 +126,8 @@ class SensorController extends Controller
 
     /**
      * Menampilkan halaman dashboard dengan data sensor
-     * Mengambil data device dan transaksi sensor terbaru
+     * Mengambil dan memproses data untuk ditampilkan dalam bentuk grafik dan tabel
+     * @return \Illuminate\View\View
      */
     public function dashboard()
     {
@@ -142,5 +141,16 @@ class SensorController extends Controller
     public function getLatestSensorData()
     {
         // Implementasi method getLatestSensorData
+    }
+
+    /**
+     * Mengambil data sensor untuk ditampilkan dalam grafik
+     * Memformat data sesuai kebutuhan tampilan grafik
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDataGrafik(Request $request)
+    {
+        // Implementasi method getDataGrafik
     }
 }

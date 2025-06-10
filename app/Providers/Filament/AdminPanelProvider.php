@@ -24,10 +24,15 @@ use App\Filament\Admin\Resources\DevicesResource;
 use App\Filament\Admin\Resources\DeviceKategoryResource;
 use App\Filament\Admin\Resources\LogAktivitasResource;
 use App\Filament\Admin\Widgets\StatsOverviewWidget;
-use App\Filament\Admin\Widgets\BlogPostsChart;
+use App\Filament\Admin\Widgets\SensorDataChart;
 use App\Filament\Pages\Auth\Login;
 use App\Http\Middleware\RedirectAfterLogout;
 
+/**
+ * Provider Panel Admin
+ * Mengkonfigurasi panel admin Filament
+ * Mendaftarkan resource, widget, dan middleware yang digunakan di panel admin
+ */
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -48,7 +53,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->widgets([
                 StatsOverviewWidget::class,
-                BlogPostsChart::class
+                SensorDataChart::class
             ])
             ->pages([
                 Dashboard::class,

@@ -1,3 +1,8 @@
+{{-- 
+    Layout Utama Aplikasi
+    File ini adalah template utama yang digunakan oleh semua halaman
+    Berisi konfigurasi dasar HTML, meta tags, CSS, dan JavaScript yang dibutuhkan
+--}}
 <!DOCTYPE html>
 <html lang="id">
 <head>

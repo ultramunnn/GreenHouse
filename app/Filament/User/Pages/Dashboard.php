@@ -7,6 +7,7 @@ use Filament\Support\Facades\FilamentView;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
+use App\Filament\User\Widgets\SensorDataChart;
 
 
 class Dashboard extends BaseDashboard
@@ -28,7 +29,7 @@ class Dashboard extends BaseDashboard
     protected function getHeaderWidgets(): array
     {
         return [
-        
+           
         ];
     }
 

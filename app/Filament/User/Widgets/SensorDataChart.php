@@ -70,7 +70,8 @@ class SensorDataChart extends ChartWidget
 
     protected function getOptions(): array
     {
-        $maxValue = $this->getMaxValue();
+        $maxValue = $maxValue = max($this->getMaxValue(), 20000); // Ensure we can see up to at least 25,000 lux
+
 
         return [
             'scales' => [

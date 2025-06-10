@@ -6,6 +6,11 @@ use App\Filament\Admin\Resources\DeviceKategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
+/**
+ * Halaman Edit Kategori Device
+ * Menampilkan form untuk mengubah data kategori device yang ada
+ * Menyediakan opsi untuk menghapus kategori
+ */
 class EditDeviceKategory extends EditRecord
 {
     protected static string $resource = DeviceKategoryResource::class;

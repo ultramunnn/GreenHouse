@@ -21,9 +21,14 @@ use App\Filament\User\Pages\Dashboard;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
 use App\Http\Middleware\RedirectAfterLogout;
-use App\Filament\User\Widgets\SensorDataChart; // Tambahkan import ini
-use App\Filament\User\Widgets\SensorStatsWidget;
+use App\Filament\User\Widgets\SensorDataChart;
+use App\Filament\User\Widgets\StatsOverviewWidget;
 
+/**
+ * Provider Panel User
+ * Mengkonfigurasi panel user Filament
+ * Mendaftarkan halaman, widget, dan middleware yang digunakan di panel user
+ */
 class UserPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -43,8 +48,8 @@ class UserPanelProvider extends PanelProvider
                 Dashboard::class,
             ])
             ->widgets([ // Tambahkan konfigurasi widget ini
+                StatsOverviewWidget::class,
                 SensorDataChart::class,
-B
             ])
             ->middleware([
                 EncryptCookies::class,

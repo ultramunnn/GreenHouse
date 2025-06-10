@@ -1,3 +1,8 @@
+{{-- 
+    View Welcome
+    Halaman utama aplikasi yang menampilkan landing page
+    Menggunakan layout app dan memuat berbagai section seperti hero, cara kerja, misi, dan tentang
+--}}
 @extends('layouts.app')
 
 @section('content')

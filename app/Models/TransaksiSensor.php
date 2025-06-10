@@ -7,19 +7,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Model untuk mengelola data transaksi sensor
- * Model ini menyimpan data hasil pembacaan dari sensor-sensor yang terpasang
+ * Model TransaksiSensor
+ * Model ini berfungsi untuk mengelola data transaksi sensor pada sistem
+ * Berisikan atribut dan relasi yang terkait dengan transaksi sensor
  */
 class TransaksiSensor extends Model
 {
     use HasFactory;
 
-    // Menentukan nama tabel yang digunakan di database
+    /**
+     * Mendefinisikan nama tabel yang terhubung dengan model ini
+     * @var string
+     */
     protected $table = 'transaksi_sensor';
 
     /**
-     * Mendefinisikan kolom-kolom yang dapat diisi (fillable)
-     * Data yang disimpan mencakup nilai sensor dan waktu pencatatan
+     * Mendefinisikan atribut-atribut yang dapat diisi (fillable)
+     * Atribut ini bisa diisi secara massal menggunakan metode create atau update
+     * @var array
      */
     protected $fillable = [
         'masterdevice_id', // ID referensi ke master device
@@ -38,7 +43,8 @@ class TransaksiSensor extends Model
 
     /**
      * Relasi dengan model Devices
-     * Setiap transaksi sensor terkait dengan satu device tertentu
+     * Menghubungkan TransaksiSensor dengan data device yang terkait
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function masterDevice(): BelongsTo
     {

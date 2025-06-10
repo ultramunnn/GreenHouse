@@ -17,6 +17,12 @@ use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Hash;
 use Filament\Actions\Action;
 
+/**
+ * Halaman Registrasi
+ * Menampilkan form registrasi untuk pengguna baru
+ * Menyediakan fitur rate limiting dan validasi
+ */
+
 class Register extends BaseRegister
 {
     use WithRateLimiting;

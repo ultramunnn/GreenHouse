@@ -16,6 +16,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+/**
+ * Resource DeviceKategory
+ * Mengelola tampilan dan operasi CRUD untuk kategori perangkat
+ * Digunakan di panel admin untuk mengatur kategori-kategori perangkat yang tersedia
+ */
 class DeviceKategoryResource extends Resource
 {
     protected static ?string $model = DeviceKategory::class;

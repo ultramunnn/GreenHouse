@@ -21,6 +21,12 @@ use App\Http\Middleware\ApprovedUserMiddleware;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
 
+/**
+ * Provider Panel App
+ * Mengkonfigurasi panel app Filament
+ * Mendaftarkan halaman, widget, dan middleware yang digunakan di panel app
+ */
+
 class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel

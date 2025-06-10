@@ -13,6 +13,11 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+/**
+ * Resource LogAktivitas
+ * Mengelola tampilan dan pencatatan log aktivitas dalam sistem
+ * Menampilkan daftar aktivitas dengan detail waktu dan IP address
+ */
 
 class LogAktivitasResource extends Resource
 {

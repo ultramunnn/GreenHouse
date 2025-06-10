@@ -5,6 +5,12 @@ namespace App\Filament\Admin\Widgets;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Widget DeviceStatisticsChart
+ * Menampilkan statistik jumlah device berdasarkan kategori
+ * Memperbarui data secara otomatis setiap 2 detik
+ */
+
 class DeviceStatisticsChart extends ChartWidget
 {
     protected static ?string $heading = 'Statistik Device per Kategori';

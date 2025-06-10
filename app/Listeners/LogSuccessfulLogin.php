@@ -8,6 +8,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\LogAktivitas;
 
+/**
+ * Listener LogSuccessfulLogin
+ * Mencatat aktivitas login pengguna
+ * Menyimpan informasi seperti nama pengguna dan alamat IP
+ */
+
 class LogSuccessfulLogin
 {
     /**

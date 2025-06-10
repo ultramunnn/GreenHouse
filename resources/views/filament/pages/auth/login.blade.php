@@ -1,3 +1,9 @@
+{{-- 
+    Halaman Login
+    Menampilkan form login untuk pengguna
+    Menyediakan fitur rate limiting dan validasi
+--}}
+
 @php
     use Filament\Support\Facades\FilamentView;
 @endphp

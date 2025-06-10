@@ -2,9 +2,9 @@
 #include <HTTPClient.h>
 #include <time.h>
 
-const char* ssid = "PONITI";
-const char* password = "12345678";
-const char* serverUrl = "http://192.168.1.11:8000/api/sensor";
+const char* ssid = "POCO X3 Pro";
+const char* password = "12345678x";
+const char* serverUrl = "http://192.168.111.52:8000/api/sensor";
 
 // NTP Server Settings
 const char* ntpServer = "pool.ntp.org";
@@ -13,6 +13,10 @@ const int daylightOffset_sec = 0;
 
 void setup() {
   Serial.begin(115200);
+  
+  // Initialize random seed using analog read from an unconnected pin
+  pinMode(34, INPUT);  // Using GPIO34 as it's input-only pin
+  randomSeed(analogRead(34));
   
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi...");
@@ -61,19 +65,19 @@ void sendDataToAPI() {
   http.addHeader("Content-Type", "application/json");
   http.setTimeout(15000);
   
-  // Data sensor (dummy)
-  static float luxValue = 2.0;
-  luxValue += 0.5;
-  if (luxValue > 100) luxValue = 25.0;
+  // Generate random sensor value between 1000 and 20000
+  int minValue = 1000;
+  int maxValue = 20000;
+  int luxValue = random(minValue, maxValue + 1);
   
   // Get current time for logging
   String waktuPencatatan = getFormattedTime();
   
-  // Create JSON with formatted time
-  String payload = "{\"masterdevice_id\": 1, \"nilai\": " + String(luxValue, 1) + 
+  // Create JSON with formatted time - each reading as new record
+  String payload = "{\"masterdevice_id\": 1, \"nilai\": " + String(luxValue) + 
                   ", \"waktu_pencatatan\": \"" + waktuPencatatan + "\"}";
   
-  Serial.println("Sending: " + payload);
+  Serial.println("Sending new reading: " + payload);
   
   int httpResponseCode = http.POST(payload);
   

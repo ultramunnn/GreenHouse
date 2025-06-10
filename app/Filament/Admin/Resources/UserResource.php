@@ -14,6 +14,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Actions\Action;
 
+/**
+ * Resource User
+ * Mengelola data pengguna dalam sistem
+ * Fitur: CRUD user, pengaturan role, dan approval status
+ */
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;

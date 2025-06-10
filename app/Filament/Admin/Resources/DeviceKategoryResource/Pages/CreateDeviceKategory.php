@@ -6,6 +6,12 @@ use App\Filament\Admin\Resources\DeviceKategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
+/**
+ * Halaman Tambah Kategori Device
+ * Menampilkan form untuk menambah kategori device baru
+ * Setelah berhasil menambah, akan diarahkan ke halaman daftar kategori device
+ */
+
 class CreateDeviceKategory extends CreateRecord
 {
     protected static string $resource = DeviceKategoryResource::class;

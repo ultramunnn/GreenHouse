@@ -5,6 +5,12 @@ namespace App\Filament\Admin\Pages;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Halaman Dashboard Admin
+ * Menampilkan halaman dashboard admin
+ * Menyediakan informasi statistik dan widget yang relevan
+ */
+
 class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';

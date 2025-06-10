@@ -10,6 +10,11 @@ use App\Models\KategoriDevice;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Widget StatsOverview
+ * Menampilkan ringkasan statistik sensor dalam bentuk card
+ * Memperbarui data secara real-time setiap 2 detik
+ */
 class StatsOverviewWidget extends BaseWidget
 {
     protected static ?string $pollingInterval = '2s';
@@ -28,12 +33,12 @@ class StatsOverviewWidget extends BaseWidget
         $waktuPencatatan = $latestSensor ? Carbon::parse($latestSensor->created_at)->format('H:i:s') : '-';
 
         return [
-            Stat::make('Nilai Sensor Terakhir', $nilaiSensor . ' LUX')
-                ->description('Nilai sensor cahaya terakhir')
+            Stat::make('Intensitas Cahaya', $nilaiSensor . ' LUX')
+                ->description('Pembacaan sensor cahaya terkini')
                 ->icon('heroicon-m-sun')
                 ->color('success'),
-            Stat::make('Waktu Pencatatan', $waktuPencatatan)
-                ->description('Waktu pembacaan terakhir')
+            Stat::make('Waktu Pembacaan', $waktuPencatatan)
+                ->description('Terakhir diperbarui')
                 ->icon('heroicon-m-clock')
                 ->color('success'),
            
