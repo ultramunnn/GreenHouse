@@ -6,7 +6,7 @@
 
 const char* ssid = "POCO X3 Pro";
 const char* password = "12345678x";
-const char* serverUrl = "http://192.168.111.52:8000/api/sensor";
+const char* serverUrl = "http://192.168.220.52:8000/api/sensor"; // Ganti dengan URL API Anda
 
 // NTP Server Settings
 const char* ntpServer = "pool.ntp.org";
@@ -19,38 +19,45 @@ const int BH1750address2 = 0x5C; // Sensor kedua (Alamat 0x5C) - Location 2
 
 byte buff[2];
 
+// Pin I2C untuk ESP32 (GPIO21 dan GPIO22)
+#define SDA_PIN 21
+#define SCL_PIN 22
+
+// Timer untuk pengiriman data
+unsigned long lastSendTime = 0;
+unsigned long lastSensorReadTime = 0;
+
 void setup() {
   Serial.begin(115200);
-  Wire.begin();  // Initialize I2C
   
-  // Initialize random seed using analog read from an unconnected pin
-  pinMode(34, INPUT);  // Using GPIO34 as it's input-only pin
-  randomSeed(analogRead(34));
+  // Inisialisasi I2C menggunakan pin SDA dan SCL yang benar
+  Wire.begin(SDA_PIN, SCL_PIN);  // Menyambungkan ke I2C di ESP32 (GPIO21 dan GPIO22)
   
+  // Menghubungkan ke WiFi
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi...");
   
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
     Serial.print(".");
+    delay(100);
   }
   
   Serial.println("\nConnected to WiFi!");
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
-  // Init and get the time
+  // Inisialisasi NTP
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
   
-  // Wait until time is synchronized
+  // Tunggu waktu sinkronisasi NTP
   Serial.println("Waiting for NTP time sync...");
   while (time(nullptr) < 1000000000) {
     Serial.print(".");
     delay(1000);
   }
   Serial.println("\nTime synchronized!");
-  
-  // Initialize BH1750 sensors
+
+  // Inisialisasi sensor BH1750
   BH1750_Init(BH1750address1);
   BH1750_Init(BH1750address2);
   Serial.println("BH1750 Sensors Initialized!");
@@ -74,11 +81,11 @@ void sendDataToAPI() {
     return;
   }
 
-  // Read data from both sensors
+  // Baca data dari kedua sensor
   uint16_t luxValue1 = readSensorData(BH1750address1);
   uint16_t luxValue2 = readSensorData(BH1750address2);
   
-  // Get current time for logging
+  // Dapatkan waktu untuk pencatatan
   String waktuPencatatan = getFormattedTime();
   
   HTTPClient http;
@@ -86,7 +93,7 @@ void sendDataToAPI() {
   http.addHeader("Content-Type", "application/json");
   http.setTimeout(15000);
 
-  // Send data for Location 1
+  // Kirim data untuk Lokasi 1
   String payload1 = "{\"masterdevice_id\": 1, \"nilai\": " + String(luxValue1) + 
                    ", \"waktu_pencatatan\": \"" + waktuPencatatan + "\"}";
   
@@ -102,8 +109,8 @@ void sendDataToAPI() {
     Serial.println("Error message: " + http.errorToString(httpResponseCode1));
   }
 
-  // Send data for Location 2
-  String payload2 = "{\"masterdevice_id\": 2, \"nilai\": " + String(luxValue2) + 
+  // Kirim data untuk Lokasi 2
+  String payload2 = "{\"masterdevice_id\": 3, \"nilai\": " + String(luxValue2) + 
                    ", \"waktu_pencatatan\": \"" + waktuPencatatan + "\"}";
   
   Serial.println("Sending Location 2 reading: " + payload2);
@@ -123,12 +130,12 @@ void sendDataToAPI() {
 
 uint16_t readSensorData(int sensorAddress) {
   uint16_t val = 0;
-  BH1750_Init(sensorAddress);  // Initialize sensor
-  delay(200);  // Wait for sensor to process
+  BH1750_Init(sensorAddress);  // Inisialisasi sensor
+  delay(200);  // Tunggu sebentar agar sensor bisa memproses
 
   int bytesRead = BH1750_Read(sensorAddress);
   if (bytesRead == 2) {
-    val = ((buff[0] << 8) | buff[1]) / 1.2; // Convert to lux value
+    val = ((buff[0] << 8) | buff[1]) / 1.2; // Konversi ke nilai lux
   } else {
     Serial.print("No data read from sensor at address ");
     Serial.println(sensorAddress, HEX);
@@ -140,14 +147,14 @@ uint16_t readSensorData(int sensorAddress) {
 int BH1750_Read(int address) {
   int i = 0;
   Wire.beginTransmission(address);
-  Wire.requestFrom(address, 2);
-  delay(100);
-  while (Wire.available()) {
-    buff[i] = Wire.read();
+  Wire.requestFrom(address, 2);  // Meminta 2 byte data dari sensor
+  delay(100);  // Tambahkan sedikit delay untuk memberi waktu sensor
+  while (Wire.available()) { 
+    buff[i] = Wire.read();  // Terima satu byte data
     i++;
   }
-  Wire.endTransmission();
-  return i;
+  Wire.endTransmission();  
+  return i; // Mengembalikan jumlah byte yang diterima
 }
 
 void BH1750_Init(int address) {
@@ -157,6 +164,18 @@ void BH1750_Init(int address) {
 }
 
 void loop() {
-  sendDataToAPI();
-  delay(10000); // Send data every 10 seconds
+  // Pastikan tidak menggunakan delay, kita ganti dengan millis
+  unsigned long currentMillis = millis();
+
+  // Baca data dari kedua sensor dan kirim ke API setiap 10 detik
+  if (currentMillis - lastSendTime >= 10000) { // 10 detik
+    lastSendTime = currentMillis;
+    sendDataToAPI();
+  }
+
+  // Baca data sensor setiap 5 detik (jangan menggunakan delay)
+  if (currentMillis - lastSensorReadTime >= 5000) { // 5 detik
+    lastSensorReadTime = currentMillis;
+    // Sensor sudah dibaca, tidak perlu melakukan hal lain karena sudah otomatis di read dan kirim
+  }
 }

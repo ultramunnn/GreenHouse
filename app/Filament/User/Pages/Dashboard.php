@@ -7,14 +7,30 @@ use Filament\Support\Facades\FilamentView;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
-use App\Filament\User\Widgets\SensorDataChart;
-
+use App\Filament\Widgets\Location1SensorChart;
+use App\Filament\Widgets\Location2SensorChart;
+use App\Filament\Widgets\SensorStatsOverview;
 
 class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
     protected static ?string $navigationLabel = 'Dashboard';
     protected static ?string $title = 'Dashboard';
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            SensorStatsOverview::class,
+        ];
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            Location1SensorChart::class,
+            Location2SensorChart::class,
+        ];
+    }
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -24,13 +40,6 @@ class Dashboard extends BaseDashboard
     public function getTitle(): string
     {
         return 'Dashboard GreenHouse';
-    }
-
-    protected function getHeaderWidgets(): array
-    {
-        return [
-           
-        ];
     }
 
     public function mount(): void
@@ -51,5 +60,4 @@ class Dashboard extends BaseDashboard
             return;
         }
     }
-
 }

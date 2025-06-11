@@ -23,8 +23,11 @@ use App\Filament\Admin\Resources\UserResource;
 use App\Filament\Admin\Resources\DevicesResource;
 use App\Filament\Admin\Resources\DeviceKategoryResource;
 use App\Filament\Admin\Resources\LogAktivitasResource;
-use App\Filament\Admin\Widgets\StatsOverviewWidget;
-use App\Filament\Admin\Widgets\SensorDataChart;
+use App\Filament\Widgets\Location1SensorChart;
+use App\Filament\Widgets\Location2SensorChart;
+
+
+
 use App\Filament\Pages\Auth\Login;
 use App\Http\Middleware\RedirectAfterLogout;
 
@@ -52,8 +55,10 @@ class AdminPanelProvider extends PanelProvider
                 LogAktivitasResource::class,
             ])
             ->widgets([
-                StatsOverviewWidget::class,
-                SensorDataChart::class
+             
+         
+                Location1SensorChart::class,
+                Location2SensorChart::class,
             ])
             ->pages([
                 Dashboard::class,

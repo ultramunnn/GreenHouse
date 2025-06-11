@@ -21,8 +21,9 @@ use App\Filament\User\Pages\Dashboard;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
 use App\Http\Middleware\RedirectAfterLogout;
-use App\Filament\User\Widgets\SensorDataChart;
-use App\Filament\User\Widgets\StatsOverviewWidget;
+use App\Filament\Widgets\Location1SensorChart;
+use App\Filament\Widgets\Location2SensorChart;
+use App\Filament\Widgets\SensorStatsOverview;
 
 /**
  * Provider Panel User
@@ -47,9 +48,10 @@ class UserPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
             ])
-            ->widgets([ // Tambahkan konfigurasi widget ini
-                StatsOverviewWidget::class,
-                SensorDataChart::class,
+            ->widgets([
+                SensorStatsOverview::class,
+                Location1SensorChart::class,
+                Location2SensorChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

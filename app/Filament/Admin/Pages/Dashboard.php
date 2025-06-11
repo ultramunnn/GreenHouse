@@ -4,6 +4,10 @@ namespace App\Filament\Admin\Pages;
 
 use Filament\Pages\Dashboard as BaseDashboard;
 use Illuminate\Support\Facades\Auth;
+use App\Filament\Widgets\Location1SensorChart;
+use App\Filament\Widgets\Location2SensorChart;
+use App\Filament\Widgets\SensorStatsOverview;
+
 
 /**
  * Halaman Dashboard Admin
@@ -25,9 +29,10 @@ class Dashboard extends BaseDashboard
     protected function getHeaderWidgets(): array
     {
         return [
-        
+            SensorStatsOverview::class,
         ];
     }
+
 
     public function mount(): void
     {
