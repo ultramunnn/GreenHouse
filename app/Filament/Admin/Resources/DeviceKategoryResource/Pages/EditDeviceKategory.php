@@ -21,4 +21,10 @@ class EditDeviceKategory extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        // Redirect ke halaman list setelah edit selesai
+        return $this->getResource()::getUrl('index');
+    }
 }
