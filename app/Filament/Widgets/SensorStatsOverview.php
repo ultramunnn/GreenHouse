@@ -28,9 +28,9 @@ class SensorStatsOverview extends BaseWidget
             ->select('waktu_pencatatan', 'nilai')
             ->first();
 
-        // Get latest reading for Location 2 (masterdevice_id = 3)
+        // Get latest reading for Location 2 (masterdevice_id = 2)
         $latestSensor2 = DB::table('transaksi_sensor')
-            ->where('masterdevice_id', 3)
+            ->where('masterdevice_id', 2)
             ->orderBy('waktu_pencatatan', 'desc')
             ->select('waktu_pencatatan', 'nilai')
             ->first();

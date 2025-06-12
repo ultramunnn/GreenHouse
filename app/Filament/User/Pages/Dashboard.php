@@ -44,17 +44,17 @@ class Dashboard extends BaseDashboard
 
     public function mount(): void
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             $this->redirect(route('filament.user.auth.login'));
             return;
         }
 
-        if (auth()->user()->role === 'admin') {
+        if (Auth::user() && Auth::user()->role === 'admin') {
             $this->redirect(route('filament.admin.pages.dashboard'));
             return;
         }
 
-        if (!auth()->user()->isApproved()) {
+        if (!Auth::user() || !Auth::user()->isApproved()) {
             Auth::logout();
             $this->redirect(route('filament.user.auth.login'));
             return;

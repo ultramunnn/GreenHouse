@@ -12,11 +12,12 @@ class Location2SensorChart extends ChartWidget
     protected static ?int $sort = 2;
     protected static ?string $maxHeight = '300px';
     protected int | string | array $columnSpan = 'full';
+    protected static ?string $pollingInterval = '2s';
 
     protected function getData(): array
     {
-        // Get the last 10 readings for Location 2 (masterdevice_id = 3)
-        $readings = TransaksiSensor::where('masterdevice_id', 3)
+        // Get the last 10 readings for Location 2 (masterdevice_id = 2)
+        $readings = TransaksiSensor::where('masterdevice_id', 2)
             ->latest('waktu_pencatatan')
             ->take(10)
             ->get()

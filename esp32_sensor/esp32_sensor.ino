@@ -6,7 +6,7 @@
 
 const char* ssid = "POCO X3 Pro";
 const char* password = "12345678x";
-const char* serverUrl = "http://192.168.220.52:8000/api/sensor"; // Ganti dengan URL API Anda
+const char* serverUrl = "http://192.168.32.160:8000/api/sensor"; // Ganti dengan URL API Anda
 
 // NTP Server Settings
 const char* ntpServer = "pool.ntp.org";
@@ -110,7 +110,7 @@ void sendDataToAPI() {
   }
 
   // Kirim data untuk Lokasi 2
-  String payload2 = "{\"masterdevice_id\": 3, \"nilai\": " + String(luxValue2) + 
+  String payload2 = "{\"masterdevice_id\": 2, \"nilai\": " + String(luxValue2) + 
                    ", \"waktu_pencatatan\": \"" + waktuPencatatan + "\"}";
   
   Serial.println("Sending Location 2 reading: " + payload2);

@@ -97,8 +97,21 @@ return [
     |
     */
     'loading_indicator' => [
-        'enabled' => PHP_OS_FAMILY !== 'Windows',
+        'enabled' => false,
         'delay' => 'none',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Optimize cache settings for better performance
+    |
+    */
+    'cache' => [
+        'enabled' => true,
+        'ttl' => 3600, // Cache for 1 hour
     ],
 
     /*
@@ -115,6 +128,9 @@ return [
 
     'layout' => [
         'welcome_banner' => [
+            'enabled' => false,
+        ],
+        'animations' => [
             'enabled' => false,
         ],
     ],
