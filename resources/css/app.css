@@ -1,4 +1,3 @@
-
 @import './filament/admin/theme.css';
 @import './filament/user/theme.css';
 
@@ -6,3 +5,43 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+
+/* Windows-specific optimizations */
+@media screen and (max-width: 9999px) {
+    .fi-loading-indicator,
+    .fi-topbar-progress,
+    .fi-progress-bar,
+    .fi-progress,
+    progress,
+    [role="progressbar"],
+    .nprogress-bar,
+    .nprogress-custom-parent,
+    .nprogress-busy,
+    .nprogress {
+        display: none !important;
+        animation: none !important;
+        transition: none !important;
+        background: none !important;
+        background-image: none !important;
+    }
+    [style*="linear-gradient"] {
+        background: none !important;
+        background-image: none !important;
+    }
+}
+
+/* Optimize transitions */
+.fi-transition {
+    transition: none !important;
+}
+
+/* Disable animations for Windows */
+@media screen and (max-width: 9999px) {
+    .animate-pulse {
+        animation: none !important;
+    }
+    
+    .animate-spin {
+        animation: none !important;
+    }
+}

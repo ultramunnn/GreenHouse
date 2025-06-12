@@ -1,0 +1,116 @@
+Optimasi Filament di Windows
+===========================
+
+1. Optimasi Cache
+-----------------
+- Aktifkan cache komponen Filament:
+  ```bash
+  php artisan filament:cache-components
+  ```
+- Gunakan Redis sebagai cache driver (jika memungkinkan) di .env:
+  ```
+  CACHE_DRIVER=redis
+  REDIS_HOST=127.0.0.1
+  REDIS_PASSWORD=null
+  REDIS_PORT=6379
+  ```
+
+2. Optimasi Asset
+-----------------
+- Pastikan Vite berjalan optimal, contoh di vite.config.js:
+  ```js
+  build: {
+    chunkSizeWarningLimit: 1000,
+  }
+  ```
+
+3. Optimasi Loading Delay
+------------------------
+- Di config/filament.php:
+  ```php
+  'livewire_loading_delay' => 'none',
+  ```
+
+4. Optimasi Database
+--------------------
+- Pastikan index pada tabel yang sering diakses
+- Gunakan eager loading untuk relasi
+- Implementasi query caching
+
+5. Optimasi File System
+-----------------------
+- Gunakan driver file system yang lebih cepat untuk Windows:
+  ```php
+  'default_filesystem_disk' => 'local',
+  ```
+
+6. Optimasi Composer
+--------------------
+- Di composer.json:
+  ```json
+  "config": {
+    "optimize-autoloader": true
+  }
+  ```
+
+7. Optimasi PHP
+---------------
+- Di php.ini:
+  ```ini
+  opcache.enable=1
+  opcache.memory_consumption=128
+  opcache.interned_strings_buffer=8
+  opcache.max_accelerated_files=4000
+  opcache.revalidate_freq=60
+  opcache.fast_shutdown=1
+  opcache.enable_cli=1
+  ```
+
+8. Optimasi Route, View, Config Caching
+---------------------------------------
+- Jalankan:
+  ```bash
+  php artisan route:cache
+  php artisan view:cache
+  php artisan config:cache
+  ```
+
+9. Gunakan Queue untuk Task Berat
+---------------------------------
+- Di .env:
+  ```
+  QUEUE_CONNECTION=redis
+  ```
+
+10. Optimasi Asset Delivery
+--------------------------
+- Gunakan CDN untuk asset statis
+- Implementasi lazy loading untuk gambar
+- Minify dan compress CSS/JS
+
+11. Monitoring dan Debugging
+---------------------------
+- Gunakan Laravel Telescope untuk monitoring
+- Implementasi logging yang tepat
+
+12. Optimasi Panel Provider
+--------------------------
+- Kurangi jumlah widget yang dimuat sekaligus
+- Implementasi lazy loading untuk widget
+- Gunakan pagination untuk data banyak
+
+13. Optimasi Permission Cache
+----------------------------
+- Di config/permission.php:
+  ```php
+  'expiration_time' => \DateInterval::createFromDateString('24 hours'),
+  'store' => 'redis',
+  ```
+
+Catatan:
+--------
+- Selalu clear cache setelah perubahan kode
+- Monitor penggunaan memori dan CPU
+- Gunakan tools monitoring
+- Optimasi query database
+- Gunakan CDN untuk asset statis 

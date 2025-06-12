@@ -43,7 +43,7 @@ return [
     |
     */
 
-    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),
+    'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -86,7 +86,20 @@ return [
     |
     */
 
-    'livewire_loading_delay' => 'default',
+    'livewire_loading_delay' => 'none',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Loading Indicator
+    |--------------------------------------------------------------------------
+    |
+    | Configure the loading indicator behavior.
+    |
+    */
+    'loading_indicator' => [
+        'enabled' => PHP_OS_FAMILY !== 'Windows',
+        'delay' => 'none',
+    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -13,4 +13,19 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        // Optimasi untuk Windows
+        chunkSizeWarningLimit: 1000,
+    },
+    server: {
+        // Optimasi untuk Windows
+        hmr: {
+            protocol: 'ws',
+            host: 'localhost',
+        },
+        watch: {
+            usePolling: false,
+            interval: 1000,
+        }
+    }
 })
